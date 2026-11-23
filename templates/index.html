@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101b">
+  <meta name="description" content="輸入靈感，一鍵生成你的專屬 BGM。AI 喲不錯喔，讓下一段旋律從你的想像開始。">
+  <title>AI 喲不錯喔 — AI-Yo Music</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="AI 喲不錯喔首頁"><span class="brand-mark">♫</span><span>AI 喲不錯喔<small>AI-YO MUSIC</small></span></a>
+    <span class="top-note"><i></i> 你的靈感，正在發聲</span>
+  </header>
+  <main class="layout">
+    <section class="intro">
+      <div class="eyebrow"><span></span> YOUR IDEA, YOUR SOUND</div>
+      <h1>把腦海裡的<br><span>那首歌，做出來。</span></h1>
+      <p class="lead">輸入靈感，一鍵生成你的專屬 BGM。<br>不用懂樂理，讓每個想法都有自己的聲音。</p>
+      <div class="sound-visual" aria-hidden="true"><div class="disc"><div class="disc-core">♫</div></div><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="visual-caption">MADE FROM YOUR IMAGINATION</span></div>
+      <div class="mini-stats"><div><strong>01</strong><span>寫下靈感</span></div><b>·</b><div><strong>02</strong><span>挑選氛圍</span></div><b>·</b><div><strong>03</strong><span>播放你的歌</span></div></div>
+    </section>
+
+    <section class="studio panel" aria-labelledby="studio-title">
+      <div class="panel-heading"><div><span class="step-label">THE MINI STUDIO</span><h2 id="studio-title">開始創作</h2></div><span class="sparkle">✳</span></div>
+      <form id="music-form">
+        <div class="field-head"><label for="prompt">描述你的音樂靈感</label><span id="char-count">0 / 500</span></div>
+        <textarea id="prompt" name="prompt" maxlength="500" placeholder="例如：下課後騎車回家的路上，耳機裡放著輕快又自由的旋律……" required></textarea>
+        <div class="ideas-label">還沒有頭緒？試試看</div>
+        <div class="ideas"><button type="button" class="idea" data-prompt="Lo-Fi 讀書放鬆節奏，溫暖的黑膠底噪、慵懶爵士鋼琴與柔和鼓點，適合專注閱讀。">☁️ <span>Lo-Fi 讀書</span></button><button type="button" class="idea" data-prompt="熱血動漫風電吉他，疾速鼓點與高燃吉他 solo，像是主角突破極限的那一刻。">⚡ <span>熱血動漫</span></button><button type="button" class="idea" data-prompt="深夜城市合成器浪潮，霓虹閃爍的街道、復古合成器和帶點孤獨的未來感。">🌃 <span>深夜城市</span></button></div>
+        <div class="options-grid">
+          <div class="option"><label for="genre">曲風 <span>GENRE</span></label><select id="genre" name="genre"><option value="lofi">Lo-Fi</option><option value="pop">流行 Pop</option><option value="rock">搖滾 Rock</option><option value="electronic">電子 Electronic</option><option value="cinematic">電影配樂</option><option value="hiphop">嘻哈 Hip-Hop</option><option value="acoustic">原聲 Acoustic</option></select></div>
+          <div class="option"><label for="mood">情緒 <span>MOOD</span></label><select id="mood" name="mood"><option value="relaxing">放鬆 Chill</option><option value="energetic">熱血 Energetic</option><option value="dreamy">夢幻 Dreamy</option><option value="hopeful">希望 Hopeful</option><option value="dark">暗黑 Dark</option><option value="focus">專注 Focus</option></select></div>
+          <div class="option"><label for="duration">長度 <span>LENGTH</span></label><select id="duration" name="duration"><option value="30">30 秒</option><option value="60" selected>60 秒</option><option value="120">2 分鐘</option></select></div>
+        </div>
+        <button class="generate" type="submit"><span class="button-copy">✦　生成我的音樂</span><span class="spinner" aria-hidden="true"></span><span class="button-arrow">↗</span></button>
+        <p class="fine-print">✧　免註冊體驗　·　你的靈感不會被分享</p>
+      </form>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section id="result" class="result" aria-live="polite" hidden>
+        <div class="result-head"><div><span class="step-label">YOUR TRACK IS READY</span><h3>這首很可以 🎧</h3></div><span class="ready-dot">● 已完成</span></div>
+        <audio id="audio-player" controls preload="none"></audio>
+        <div class="result-bottom"><div id="summary" class="summary"></div><a id="download-link" class="download" href="#" download>↓　下載音樂</a></div>
+        <p id="demo-note" class="demo-note" hidden>目前播放的是示範音訊。接上音樂生成 API 後，就會是你的專屬作品。</p>
+      </section>
+    </section>
+  </main>
+  <footer><span>AI 喲不錯喔 <span class="footer-dot">✦</span> 把靈感變成日常的配樂</span><span>MADE FOR YOUR NEXT BIG IDEA</span></footer>
+</body>
+</html>
